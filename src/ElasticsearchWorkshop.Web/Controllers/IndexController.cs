@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net.Http;
@@ -23,8 +24,22 @@ namespace ElasticsearchWorkshop.Web.Controllers
                 var products = context.Products.ToDocuments().ToList();
                 var orders = context.Orders.ToDocuments().ToList();
                 var indexModel = new IndexModel(customers, products, orders);
+
+                var indexer = CreateIndexer();
+                indexer.DeleteIndex(s => s.Index("elasticworkshop"));
+                customers.ForEach(c => indexer.Index(c));
+                products.ForEach(p => indexer.Index(p));
+                orders.ForEach(o => indexer.Index(o));
+
                 return Request.CreateResponse(indexModel);
             }
+        }
+
+        private ElasticClient CreateIndexer()
+        {
+            IConnectionSettingsValues settings = new ConnectionSettings(new Uri("http://192.168.50.69:9200"),
+                "elasticworkshop");
+            return new ElasticClient(settings);
         }
     }
 
