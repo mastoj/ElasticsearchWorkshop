@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using ElasticsearchWorkshop.Web.Models;
 
 namespace ElasticsearchWorkshop.Web.Extensions
 {
@@ -83,47 +83,5 @@ namespace ElasticsearchWorkshop.Web.Extensions
                 ProductId = dbOrderLine.Products.ProductID
             };
         }
-    }
-
-    public class OrderLine
-    {
-        public short Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
-        public string ProductName { get; set; }
-        public int ProductId { get; set; }
-    }
-
-    public class Order
-    {
-        public string CustomerId { get; set; }
-        public int Id { get; set; }
-        public DateTime? OrderDate { get; set; }
-        public IEnumerable<OrderLine> OrderLines { get; set; }
-    }
-
-    public class Category
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Id { get; set; }
-    }
-
-    public class Product
-    {
-        public string Name { get; set; }
-        public int Id { get; set; }
-        public decimal? Price { get; set; }
-        public Category Category { get; set; }
-    }
-
-    public class Customer
-    {
-        public string Country { get; set; }
-        public string CompanyName { get; set; }
-        public string City { get; set; }
-        public string Address { get; set; }
-        public string Region { get; set; }
-        public string ContactName { get; set; }
-        public string Id { get; set; }
     }
 }

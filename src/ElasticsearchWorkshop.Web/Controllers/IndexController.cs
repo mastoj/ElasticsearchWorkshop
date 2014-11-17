@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using ElasticsearchWorkshop.Web.Extensions;
+using ElasticsearchWorkshop.Web.Models;
 using Nest;
 using WebGrease.Css.Extensions;
 
