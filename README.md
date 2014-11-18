@@ -81,3 +81,6 @@ When indexing multiple documents you don't want to make a roundtrip per each ind
 
 ## 8. Adding document to the index
 Update the products controller to accept a post to the endpoint with a product that adds the products to the index if the id doesn't exist. 
+
+## 9. Delete a document
+In addition to add a product we want to be able to delete a product.
