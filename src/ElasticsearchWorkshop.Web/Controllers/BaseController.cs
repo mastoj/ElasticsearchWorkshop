@@ -19,5 +19,18 @@ namespace ElasticsearchWorkshop.Web.Controllers
                 "elasticworkshop");
             return new ElasticClient(settings);
         }
+
+        protected static string _indexBaseName = "elasticworkshop";
+        protected static int _indexVersion = 0;
+
+        protected static string GetIndexName(string name, int version)
+        {
+            return string.Format("{0}_{1}", name, version);
+        }
+
+        protected static string GetCurrentIndexName()
+        {
+            return GetIndexName(_indexBaseName, _indexVersion);
+        }
     }
 }

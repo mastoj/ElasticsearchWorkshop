@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ElasticsearchWorkshop.Web.Models;
@@ -35,9 +36,11 @@ namespace ElasticsearchWorkshop.Web.Controllers
 
         [Route]
         [HttpPost]
-        public HttpResponseMessage Post(string query)
+        public HttpResponseMessage Post(Product product)
         {
-            return Request.CreateResponse("Getting products");
+            var response = _indexer.Index(product, index => index.Index(GetCurrentIndexName()));
+
+            return Request.CreateResponse(response.Created ? HttpStatusCode.Created : HttpStatusCode.InternalServerError);
         }
 
         [Route]

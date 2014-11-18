@@ -12,14 +12,6 @@ namespace ElasticsearchWorkshop.Web.Controllers
     [RoutePrefix("api/index")]
     public class IndexController : BaseController
     {
-        public static string _indexBaseName = "elasticworkshop";
-        public static int _indexVersion = 0;
-
-        public static string GetIndexName(string name, int version)
-        {
-            return string.Format("{0}_{1}", name, version);
-        }
-
         [Route]
         [HttpPost]
         public HttpResponseMessage Post()
