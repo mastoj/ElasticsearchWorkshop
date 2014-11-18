@@ -33,9 +33,11 @@ namespace ElasticsearchWorkshop.Web.Controllers
 
                 var newIndexVersion = _indexVersion + 1;
                 var newIndexName = GetIndexName(_indexBaseName, newIndexVersion);
-                customers.ForEach(c => _indexer.Index(c, index => index.Index(newIndexName)));
-                products.ForEach(p => _indexer.Index(p, index => index.Index(newIndexName)));
-                orders.ForEach(o => _indexer.Index(o, index => index.Index(newIndexName)));
+
+                _indexer.Bulk(bs => bs
+                    .CreateMany(customers)
+                    .CreateMany(products)
+                    .CreateMany(orders));
 
                 var oldIndexes = _indexer.GetIndicesPointingToAlias(_indexBaseName);
                 var result =_indexer.Alias(y =>
