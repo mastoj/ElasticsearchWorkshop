@@ -61,4 +61,18 @@ Now we know how to create an index and how to query, which are the real basics y
 
 Go back to your indexing part and modify it to create an alias. Whenever we do a post to the alias, increase a counter and add it to some base index name. Use the new index name and index all the objects towards that index. When the index is done, swap the indexes.
 
+Part of the code dealing with the aliases should look something like this:
+
+    var oldIndexes = _indexer.GetIndicesPointingToAlias(_indexBaseName);
+    var result =_indexer.Alias(y =>
+    {
+        var x = y
+          .Add(add => add.Index(newIndexName).Alias(_indexBaseName));
+        if (oldIndexes.Any())
+        {
+            oldIndexes.ForEach(oi => x = x.Remove(rem => rem.Index(oi).Alias(_indexBaseName)));
+        }
+        return x;
+    });
+    _indexVersion = newIndexVersion;
 
