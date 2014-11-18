@@ -168,9 +168,12 @@
     <Compile Include="Categories.cs">
       <DependentUpon>NorthwndDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\QueryController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

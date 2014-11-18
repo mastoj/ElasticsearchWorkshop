@@ -1,35 +1,19 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Web.Http;
-using Nest;
+using ElasticsearchWorkshop.Web.Models;
 
 namespace ElasticsearchWorkshop.Web.Controllers
 {
-    public class BaseController : ApiController
-    {
-        protected ElasticClient _indexer;
-
-        public BaseController()
-        {
-            _indexer = CreateIndexer();
-        }
-
-        private ElasticClient CreateIndexer()
-        {
-            IConnectionSettingsValues settings = new ConnectionSettings(new Uri("http://192.168.50.69:9200"),
-                "elasticworkshop");
-            return new ElasticClient(settings);
-        }
-    }
-
     [RoutePrefix("api/product")]
-    public class ProductController : ApiController
+    public class ProductController : BaseController
     {
         [Route]
         [HttpGet]
         public HttpResponseMessage Get(string query)
         {
-            return Request.CreateResponse("Getting products");
+            var result = _indexer.Search<Product>(ss => ss
+                .QueryString(query));
+            return Request.CreateResponse(result.Documents);
         }
 
         [Route]
