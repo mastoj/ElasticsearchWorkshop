@@ -43,11 +43,13 @@ namespace ElasticsearchWorkshop.Web.Controllers
             return Request.CreateResponse(response.Created ? HttpStatusCode.Created : HttpStatusCode.InternalServerError);
         }
 
-        [Route]
+        [Route("{id}")]
         [HttpDelete]
         public HttpResponseMessage Delete(string id)
         {
-            return Request.CreateResponse("Deleting product with id: " + id);
+            var response = _indexer.Delete<Product>(ds => ds.Id(id));
+
+            return Request.CreateResponse(response.IsValid ? HttpStatusCode.Accepted : HttpStatusCode.InternalServerError);
         }
     }
 
