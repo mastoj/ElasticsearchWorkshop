@@ -21,3 +21,21 @@ The next step is to basically to the same thing but now we are only interested i
 At this point it might be wise to creat a base controller that all the others are using so you don't have instantiate the elasticsearch client all the time.
 
 Note that elasticsearch allows for wildcard queries, so to search for everything you specify '*'
+
+## 4. Aggregates - add facets for category on product so we can filter the product query.
+A terms aggregatetion allow us to see what happens if we apply a filter to a query, that is, how many documents in that query matches that aggregation.
+
+A sample aggregation query could look something like this
+
+    var result = _indexer.Search<Product>(ss => ss
+        .QueryString(query)
+        .Aggregations(aggs => aggs
+            .Terms("categories", s => s
+                .Field(f => f.Category.Name)
+                .Aggregations(s2 => s2 
+                    .Terms("categoryid", s3 => s3.Field(p2=> p2.Category.Id))))));
+
+Try it out.
+
+## 5. Filtering - add filter for category on product
+Now when we know what we can filter on it's time to implement the filter. Implement the filter on category id.
