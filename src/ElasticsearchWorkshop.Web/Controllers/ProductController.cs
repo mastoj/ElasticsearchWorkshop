@@ -11,15 +11,24 @@ namespace ElasticsearchWorkshop.Web.Controllers
     {
         [Route]
         [HttpGet]
-        public HttpResponseMessage Get(string query)
+        public HttpResponseMessage Get(string query, int? categoryId = null)
         {
-            var result = _indexer.Search<Product>(ss => ss
-                .QueryString(query)
-                .Aggregations(aggs => aggs
-                    .Terms("categories", s => s
-                        .Field(f => f.Category.Name)
-                        .Aggregations(s2 => s2 
-                            .Terms("categoryid", s3 => s3.Field(p2=> p2.Category.Id))))));
+            var result = _indexer.Search<Product>(ss =>
+            {
+                var x = ss
+                    .QueryString(query)
+                    .Aggregations(aggs => aggs
+                        .Terms("categories", s => s
+                            .Field(f => f.Category.Name)
+                            .Aggregations(s2 => s2
+                                .Terms("categoryid", s3 => s3.Field(p2 => p2.Category.Id)))));
+                if (categoryId.HasValue)
+                {
+                    x = x.Filter(f => f.Term(fd => fd.Category.Id, categoryId.Value));
+                }
+                return x;
+            });
+
             var productQueryViewModel = new ProductQueryViewModel(result.Documents, result.Aggregations);
             return Request.CreateResponse(productQueryViewModel);
         }
