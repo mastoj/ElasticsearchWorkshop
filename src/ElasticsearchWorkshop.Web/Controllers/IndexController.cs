@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices.ComTypes;
 using System.Web.Http;
 using ElasticsearchWorkshop.Web.Extensions;
 using ElasticsearchWorkshop.Web.Models;
-using Nest;
-using WebGrease.Css.Extensions;
 
 namespace ElasticsearchWorkshop.Web.Controllers
 {
     [RoutePrefix("api/index")]
-    public class IndexController : ApiController
+    public class IndexController : BaseController
     {
-        private ElasticClient _indexer;
-
-        public IndexController()
-        {
-            _indexer = CreateIndexer();
-        }
-
         [Route]
         [HttpPost]
         public HttpResponseMessage Post()
@@ -51,13 +39,6 @@ namespace ElasticsearchWorkshop.Web.Controllers
                 .QueryString(query));
 
             return Request.CreateResponse(result.Documents);
-        }
-
-        private ElasticClient CreateIndexer()
-        {
-            IConnectionSettingsValues settings = new ConnectionSettings(new Uri("http://192.168.50.69:9200"),
-                "elasticworkshop");
-            return new ElasticClient(settings);
         }
     }
 
