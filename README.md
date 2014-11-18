@@ -38,4 +38,27 @@ A sample aggregation query could look something like this
 Try it out.
 
 ## 5. Filtering - add filter for category on product
-Now when we know what we can filter on it's time to implement the filter. Implement the filter on category id.
+Now when we know what we can filter on it's time to implement the filter. Implement the filter on category id. To implement the filter we mush change some of our strategy, instead of being 100 % fluent we need to create the query in smaller steps. Experiment with this:
+
+    var result = _indexer.Search<Product>(ss =>
+    {
+        var x = ss
+            .QueryString(query)
+            .Aggregations(aggs => aggs
+                .Terms("categories", s => s
+                    .Field(f => f.Category.Name)
+                    .Aggregations(s2 => s2
+                        .Terms("categoryid", s3 => s3.Field(p2 => p2.Category.Id)))));
+        if (categoryId.HasValue)
+        {
+            x = x.Filter(f => f.Term(fd => fd.Category.Id, categoryId.Value));
+        }
+        return x;
+    });
+
+## 6. Using aliases
+Now we know how to create an index and how to query, which are the real basics you need to know. One really nice, and important, feature of elasticsearch is alias. An alias enables you to do things like swapping an index without down time in the index.
+
+Go back to your indexing part and modify it to create an alias. Whenever we do a post to the alias, increase a counter and add it to some base index name. Use the new index name and index all the objects towards that index. When the index is done, swap the indexes.
+
+
