@@ -78,3 +78,6 @@ Part of the code dealing with the aliases should look something like this:
 
 ## 7. Improving indexing performance of large batches
 When indexing multiple documents you don't want to make a roundtrip per each indexing operation you do, so instead we will use bulk operations, http://nest.azurewebsites.net/nest/core/bulk.html.
+
+## 8. Adding document to the index
+Update the products controller to accept a post to the endpoint with a product that adds the products to the index if the id doesn't exist. 
