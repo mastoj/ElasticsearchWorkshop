@@ -76,3 +76,5 @@ Part of the code dealing with the aliases should look something like this:
     });
     _indexVersion = newIndexVersion;
 
+## 7. Improving indexing performance of large batches
+When indexing multiple documents you don't want to make a roundtrip per each indexing operation you do, so instead we will use bulk operations, http://nest.azurewebsites.net/nest/core/bulk.html.
